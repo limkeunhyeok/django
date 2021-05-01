@@ -2,6 +2,7 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from django.contrib import admin
 
 # Create your models here.
 # Question과 Choice는 django.db.models.Model.를 상속
@@ -19,6 +20,11 @@ class Question(models.Model):
     def __str__(self):
         return self.quest_text
 
+    @admin.display(
+        boolean=True,
+        ordering='pub_date',
+        description='Published recently?',
+    )
     def was_published_recently(self):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.pub_date <= now
